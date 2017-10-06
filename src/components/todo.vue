@@ -10,17 +10,17 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { ITodo } from '../store';
 
 @Component({})
 export default class Todo extends Vue {
-  @Prop({ type: Function }) addTodo: Function;
-  @Prop({ type: Function }) editTodo: Function;
-  @Prop({ type: Object }) todo: { text: string, index: number };
+  @Prop() addTodo: Function;
+  @Prop() editTodo: Function;
+  @Prop() todo: ITodo;
 
   handleTodo() {
-    console.log('todo', this.todo);
-    if (this.todo.index) return this.editTodo(this.todo.text, this.todo.index);
-    this.addTodo(this.todo.text);
+    if (this.todo.index !== 0) return this.editTodo(this.todo);
+    this.addTodo({ text: this.todo.text });
   }
 }
 </script>

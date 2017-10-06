@@ -1,10 +1,29 @@
 <template>
   <div>
-    <todo :todo="todo" :editTodo="editTodo" :addTodo="addTodo"></todo>
+    <todo :todo="activeTodo" :editTodo="editTodo" :addTodo="addTodo"></todo>
+    <h2>todos</h2>
     <ul>
-      <li v-for="(todo, index) in todos" v-bind:key="todo">
-        {{todo}}
-        <button v-on:click="showEdit(todo, index)">
+      <li v-for="todo in todos" v-bind:key="todo.index">
+        {{todo.text}}
+        <button v-on:click="toggleTodo(todo)">
+          done
+        </button>
+        <button v-on:click="selectTodo(todo)">
+          e
+        </button>
+        <button v-on:click="removeTodo(todo)">
+          x
+        </button>
+      </li>
+    </ul>
+    <h2>dones</h2>
+    <ul>
+      <li v-for="todo in dones" v-bind:key="todo.index">
+        {{todo.text}}
+        <button v-on:click="toggleTodo(todo)">
+          undone
+        </button>
+        <button v-on:click="showEdit(todo)">
           e
         </button>
         <button v-on:click="removeTodo(todo)">
@@ -17,7 +36,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component } from 'vue-property-decorator';
+import { Getter, Mutation } from 'vuex-class';
+import { ITodo } from '../store';
 
 import Todo from '../components/todo.vue';
 
@@ -27,45 +48,23 @@ import Todo from '../components/todo.vue';
   }
 })
 export default class Todos extends Vue {
-  todos: Array<string>;
-  todo = {
-    text: '',
-    index: undefined
-  };
+  @Getter todos: ITodo[];
+  @Getter dones: ITodo[];
+  @Getter activeTodo: ITodo;
+  @Mutation selectTodo;
+  @Mutation addTodo;
+  @Mutation editTodo;
+  @Mutation toggleTodo;
+  @Mutation removeTodo;
 
   constructor() {
     super();
-    this.todos = ['Task 1', 'Task 2', 'Task 3'];
   }
 
   created() {
     console.log('created!')
   }
 
-  addTodo(todo: string) {
-    console.log('parent todo', todo);
-    this.todos.push(todo);
-    this.todo.text = '';
-    this.todo.index = undefined;
-  }
-
-  showEdit(todo, index) {
-    this.todo.index = index;
-    this.todo.text = todo;
-  }
-
-  editTodo(todo, index) {
-    console.log('todo', todo);
-    console.log('index', index);
-    this.todos.splice(index, 1, todo);
-    this.todo.text = '';
-    this.todo.index = undefined;
-  }
-
-  removeTodo(todoToRemove) {
-    console.log('removeTodo!', todoToRemove);
-    this.todos = this.todos.filter(todo => todo !== todoToRemove);
-  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 {
-  "name": "vue-ts-todo",
+  "name": "vue-ts-todo-vuex",
   "version": "1.0.0",
-  "description": "Todo App with Vuejs using Typescript",
+  "description": "Todo App with Vuejs and Vuex using Typescript",
   "author": "Muhammad Kamran <smkamranqadri@yahoo.com>",
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "vue": "^2.2.6",
-    "vue-router": "^2.3.1"
+    "vue-router": "^2.3.1",
+    "vuex": "^2.4.1",
+    "vuex-class": "^0.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
